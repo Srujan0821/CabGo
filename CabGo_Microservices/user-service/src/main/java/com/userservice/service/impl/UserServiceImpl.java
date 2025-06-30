@@ -2,11 +2,12 @@ package com.userservice.service.impl;
 
 import com.commonlib.dto.UserLoginRequest;
 import com.commonlib.dto.UserRegisterRequest;
+import com.commonlib.enums.Role;
+import com.commonlib.exception.UserNotFoundException;
+import com.commonlib.utils.JwtUtil;
 import com.userservice.entity.User;
 import com.userservice.repository.UserRepository;
 import com.userservice.service.UserService;
-import com.commonlib.enums.Role;
-import com.commonlib.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String register(UserRegisterRequest request) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already registered");
+        }
+
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
@@ -31,6 +36,7 @@ public class UserServiceImpl implements UserService {
                 .role(Role.USER)
                 .createdAt(LocalDateTime.now().toString())
                 .build();
+
         userRepository.save(user);
         return "User registered successfully!";
     }
@@ -38,10 +44,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(UserLoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + request.getEmail()));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
-            throw new RuntimeException("Invalid password");
+            throw new RuntimeException("Invalid email or password");
         }
 
         return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
@@ -49,9 +55,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getProfile(String token) {
+        if (!jwtUtil.validateToken(token)) {
+            throw new RuntimeException("Invalid or expired token");
+        }
+
         String email = jwtUtil.extractEmail(token);
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User profile not found"));
     }
 
     @Override
@@ -59,15 +69,16 @@ public class UserServiceImpl implements UserService {
         // Stateless logout logic (client-side token removal)
         System.out.println("User logged out successfully");
     }
+
     @Override
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
     }
 
     @Override
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
     }
 }
