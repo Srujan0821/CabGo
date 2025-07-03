@@ -22,6 +22,11 @@ public class GlobalExceptionHandler {
                 .body(new ApiResponse(false, "An unexpected error occurred", null));
     }
 
+    @ExceptionHandler(DriverNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleDriverNotFound(DriverNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponse(false, ex.getMessage(), null));
+    }
 
 
 }

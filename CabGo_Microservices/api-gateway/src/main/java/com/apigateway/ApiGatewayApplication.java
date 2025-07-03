@@ -13,5 +13,4 @@ public class ApiGatewayApplication {
 		System.out.println("API Gateway is running...");
 		System.out.println("Access the API Gateway at: http://localhost:8080");
 	}
-
 }
