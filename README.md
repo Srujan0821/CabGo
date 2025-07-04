@@ -9,11 +9,11 @@
     - [Other Tools and Libraries](#other-tools-and-libraries)
 - [Backend Dependencies](#backend-dependencies)
 - [Module Documentation](#module-documentation)
-    - [User Module](./Documentation/User_Module.md)
-    - [Driver Module](./Documentation/Driver_Module.md)
-    - [Ride Module](./Documentation/Ride_Module.md)
-    - [Payment Module](./Documentation/Payment_Module.md)
-    - [Rating Module](./Documentation/Rating_Module.md)
+    - [User Module](Documentation/User_Module.md)
+    - [Driver Module](Documentation/Driver_Module.md)
+    - [Ride Module](Documentation/Ride_Module.md)
+    - [Payment Module](Documentation/Payment_Module.md)
+    - [Rating Module](Documentation/Rating_Module.md)
 - [How to Run This Project with Eureka and API Gateway](#how-to-run-this-project-with-eureka-and-api-gateway)
 - [Project Contributors](#project-contributors)
 
@@ -60,19 +60,19 @@
 - **Swagger/OpenAPI**: For API documentation and testing.  
 
 ## Module Documentation
-[User Module](./Documentation/User_Module.md)  
+[User Module](Documentation/User_Module.md)  
 Handles user registration, login, and profile management
 
-[Driver Module](./Documentation/Driver_Module.md)  
+[Driver Module](Documentation/Driver_Module.md)  
 Manages driver profiles, vehicle details, and availability status  
 
-[Ride Module](./Documentation/Ride_Module.md)   
+[Ride Module](Documentation/Ride_Module.md)   
 Booking Facilitates cab booking, ride status management, and driver assignment
 
-[Payment Module](./Documentation/Payment_Module.md)  
+[Payment Module](Documentation/Payment_Module.md)  
 Supports fare calculation, payment processing, and receipt generation
 
-[Rating Module](./Documentation/Rating_Module.md)  
+[Rating Module](Documentation/Rating_Module.md)  
 Allows users and drivers to rate and review each other post-ride.
 
 ## How to Run This Project with Eureka and API Gateway

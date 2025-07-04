@@ -47,7 +47,7 @@ The **Driver Module** manages driver-related functionalities within the Cab Book
 
 ## Component Diagram
 
-![Driver component diagram](./component/driver.png)
+![Driver component diagram](component/driver.png)
 
 ---
 

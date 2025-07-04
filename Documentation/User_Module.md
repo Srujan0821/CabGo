@@ -40,7 +40,7 @@ The module is designed with a layered architecture, ensuring separation of conce
 
 # Component Diagram
 
-![User component diagram](./component/user.png)
+![User component diagram](component/user.png)
 
 # Layered Architecture of User Module
 

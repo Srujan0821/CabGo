@@ -43,7 +43,7 @@ The **Ride Module** manages ride-related functionalities within the Cab Booking 
 ---
 
 ## Component Diagram
-![Ride component diagram](./component/ride.png)
+![Ride component diagram](component/ride.png)
 
     
 ## Layered Architecture of Ride Module

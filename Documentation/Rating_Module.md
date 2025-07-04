@@ -44,7 +44,7 @@ The **Rating Module** manages rating and feedback functionalities within the Cab
 
 # Component Diagram
 
-![Rating component diagram](./component/rating.png)
+![Rating component diagram](component/rating.png)
 
 
 ## Layered Architecture of Rating Module
