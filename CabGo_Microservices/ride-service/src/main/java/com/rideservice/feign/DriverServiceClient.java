@@ -9,6 +9,11 @@ public interface DriverServiceClient {
     @GetMapping("/api/drivers/available/first")
     DriverResponse getAvailableDriver();
 
+
+    @GetMapping("/api/drivers/profile-by-phone")
+    DriverResponse getDriverByPhone(@RequestParam("phone") String phone);
+
+
     @PutMapping("/api/drivers/{id}/availability")
     void setDriverAvailable(@PathVariable("id") Long driverId, @RequestParam("available") boolean available);
 }

@@ -48,6 +48,7 @@ public class SecurityConfig {
                     "/api/drivers/login",
                     "/api/drivers/available",
                     "/api/drivers/available/first",
+                    "/api/drivers/profile-by-phone",
                     "/error",
                     "/actuator/health"
                 ).permitAll()
