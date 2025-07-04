@@ -40,6 +40,10 @@ public class JwtUtil {
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
+    public String getPhoneNumberFromToken(String token) {
+        return getClaimFromToken(token, "sub");
+    }
+
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
@@ -56,6 +60,8 @@ public class JwtUtil {
     public String extractUsername(String token) {
         return getUsernameFromToken(token);
     }
+
+
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder()

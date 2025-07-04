@@ -41,7 +41,8 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
                 "/api/drivers/available/first",
-                "/api/drivers/available", // if you want
+                "/api/drivers/available",
+                    "/api/drivers/profile-by-phone",// if you want
                 "/actuator/health",
                 "/error"
             ).permitAll() // or .hasAnyRole("USER", "SERVICE", "ADMIN") for more security
