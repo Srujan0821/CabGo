@@ -1,16 +1,16 @@
 package com.rideservice.controller;
 
-import com.commonlib.dto.RideBookingRequest;
-import com.commonlib.dto.RideDTO;
-import com.commonlib.dto.UserResponse;
+import com.commonlib.dto.*;
+import com.commonlib.utils.JwtUtil;
 import com.rideservice.entity.Ride;
+import com.rideservice.feign.DriverServiceClient;
 import com.rideservice.feign.UserServiceClient;
 import com.rideservice.service.RideService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import com.commonlib.dto.ApiResponse;
 
 import java.util.List;
 
@@ -21,29 +21,107 @@ public class RideController {
 
     private final RideService rideService;
     private final UserServiceClient userServiceClient;
+    private final JwtUtil jwtUtil;
+    private final DriverServiceClient driverServiceClient;
 
     @PostMapping("/book")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Ride> bookRide(@RequestBody RideBookingRequest request) {
-        // request should contain userId and pickup/dropoff locations
-        return ResponseEntity.ok(rideService.bookRide(request));
+    public ResponseEntity<Ride> bookRide(@RequestBody RideBookingRequest request, HttpServletRequest httpRequest) {
+        // Extract JWT from Authorization header
+        String bearerToken = httpRequest.getHeader("Authorization");
+        String token = null;
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            token = bearerToken.substring(7);
+        }
+        if (token == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Extract email from token
+        String email;
+        try {
+            email = jwtUtil.getUsernameFromToken(token); // assuming this returns email
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Fetch user by email to get userId
+        UserResponse user = userServiceClient.getUserByEmail(email);
+        if (user == null || user.getUserId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Ride ride = rideService.bookRide(request, user.getUserId());
+        return ResponseEntity.ok(ride);
     }
+
 
     @PutMapping("/status")
     @PreAuthorize("hasRole('DRIVER')")
-    public ResponseEntity<ApiResponse> updateStatus(@RequestParam Long driverId, @RequestParam String status) {
-        // Pass driverId directly (from request or JWT claims)
-        rideService.updateStatusByDriver(driverId, status);
+    public ResponseEntity<ApiResponse> updateStatus(@RequestParam String status, HttpServletRequest httpRequest) {
+        // Extract JWT from Authorization header
+        String bearerToken = httpRequest.getHeader("Authorization");
+        String token = null;
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            token = bearerToken.substring(7);
+        }
+        if (token == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Extract phone number from token
+        String phoneNumber;
+        try {
+            phoneNumber = jwtUtil.getPhoneNumberFromToken(token); // assuming this method exists
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Fetch driver profile using phone number
+        DriverResponse driver = driverServiceClient.getDriverByPhone(phoneNumber); // assuming this method exists
+        if (driver == null || driver.getDriverId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Update ride status using driverId
+        rideService.updateStatusByDriver(driver.getDriverId(), status);
         return ResponseEntity.ok(new ApiResponse(true, "Ride status updated successfully", null));
     }
 
-    @GetMapping("/user/{userId}/rides")
+
+    @GetMapping("/user/rides")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<Ride>> getUserRides(@PathVariable Long userId) {
-        // Fetch the rides for the given userId
-        List<Ride> userRides = rideService.getUserRides(userId);
+    public ResponseEntity<List<Ride>> getUserRides(HttpServletRequest httpRequest) {
+        // Extract JWT from Authorization header
+        String bearerToken = httpRequest.getHeader("Authorization");
+        String token = null;
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            token = bearerToken.substring(7);
+        }
+        if (token == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Extract email from token
+        String email;
+        try {
+            email = jwtUtil.getUsernameFromToken(token);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Fetch user by email to get userId
+        UserResponse user = userServiceClient.getUserByEmail(email);
+        if (user == null || user.getUserId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Fetch the rides for the user
+        List<Ride> userRides = rideService.getUserRides(user.getUserId());
         return ResponseEntity.ok(userRides);
     }
+
+
 
     @GetMapping("/{rideId}")
     @PreAuthorize("hasRole('USER')")
@@ -62,4 +140,5 @@ public class RideController {
         // set other fields as needed
         return ResponseEntity.ok(dto);
     }
+
 }

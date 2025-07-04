@@ -23,9 +23,9 @@ public class RideServiceImpl implements RideService {
     private final DriverServiceClient driverServiceClient;
 
     @Override
-    public Ride bookRide(RideBookingRequest request) {
+    public Ride bookRide(RideBookingRequest request, Long userId) {
         // 1. Get user info from user-service (optional, for validation)
-        UserResponse user = userServiceClient.getUserById(request.getUserId());
+        UserResponse user = userServiceClient.getUserById(userId);
         if (user == null) throw new RuntimeException("User not found");
 
         // 2. Get available driver from driver-service
@@ -85,4 +85,8 @@ public class RideServiceImpl implements RideService {
         return rideRepository.findById(rideId)
                 .orElseThrow(() -> new RuntimeException("Ride not found"));
     }
+
+
+
+
 }

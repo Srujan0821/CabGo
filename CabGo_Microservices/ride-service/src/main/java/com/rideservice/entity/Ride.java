@@ -23,6 +23,7 @@ public class Ride {
     private String pickupLocation;
     private String dropoffLocation;
 
+
     private double fare;
 
     @Enumerated(EnumType.STRING)

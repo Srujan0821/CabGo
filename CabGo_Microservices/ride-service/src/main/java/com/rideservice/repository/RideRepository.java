@@ -9,4 +9,5 @@ import com.rideservice.entity.Ride;
 public interface RideRepository extends JpaRepository<Ride, Long> {
     List<Ride> findByUserId(Long userId);
     List<Ride> findByDriverId(Long driverId);
+
 }
