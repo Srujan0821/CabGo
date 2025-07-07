@@ -59,7 +59,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ApiResponse> logout() {
         try {

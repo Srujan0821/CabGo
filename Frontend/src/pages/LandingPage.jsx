@@ -21,7 +21,7 @@ const LandingPage = () => {
             </span>
           </h1>
           <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-            Experience seamless transportation with RideEasy. Safe, reliable, and affordable rides at your fingertips.
+            Experience seamless transportation with CabGo. Safe, reliable, and affordable rides at your fingertips.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -45,7 +45,7 @@ const LandingPage = () => {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-            Why Choose RideEasy?
+            Why Choose CabGo?
           </h2>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -128,7 +128,7 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center space-x-2 mb-6">
             <Car className="h-8 w-8 text-blue-400" />
-            <span className="text-2xl font-bold">RideEasy</span>
+            <span className="text-2xl font-bold">CabGo</span>
           </div>
           <p className="text-gray-400 mb-6">Making transportation accessible for everyone</p>
           <div className="flex justify-center space-x-8 text-sm text-gray-400">

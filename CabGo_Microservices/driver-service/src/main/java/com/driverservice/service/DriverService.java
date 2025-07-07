@@ -15,4 +15,5 @@ public interface DriverService {
     void updateStatusById(Long id, boolean available);
     Driver getDriverById(Long driverId);
     Driver getDriverByPhone(String phone);
+    void logout();
 }

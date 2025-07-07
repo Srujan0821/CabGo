@@ -107,7 +107,7 @@ public class DriverController {
         }
     }
 
-    @GetMapping("/{driverId}")
+    @GetMapping("/data/{driverId}")
     public ResponseEntity<DriverResponse> getDriverById(@PathVariable Long driverId) {
         try {
             Driver driver = driverService.getDriverById(driverId);
@@ -119,6 +119,7 @@ public class DriverController {
             response.setName(driver.getName());
             response.setPhone(driver.getPhone());
             response.setAvailable(driver.isAvailable());
+            response.setVehicleDetails(driver.getVehicleDetails());
             return ResponseEntity.ok(response);
         } catch (DriverNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -139,11 +140,24 @@ public class DriverController {
             response.setName(driver.getName());
             response.setPhone(driver.getPhone());
             response.setAvailable(driver.isAvailable());
+            response.setVehicleDetails(driver.getVehicleDetails());
             return ResponseEntity.ok(response);
         } catch (DriverNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/logout")
+    @PreAuthorize("hasRole('DRIVER')")
+    public ResponseEntity<ApiResponse> logout() {
+        try {
+            driverService.logout();
+            return ResponseEntity.ok(new ApiResponse(true, "Logout successful", null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse(false, "Logout failed", null));
         }
     }
 }

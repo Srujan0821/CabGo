@@ -8,7 +8,9 @@ import com.rideservice.feign.UserServiceClient;
 import com.rideservice.service.RideService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -139,6 +141,74 @@ public class RideController {
         dto.setStatus(ride.getStatus().toString());
         // set other fields as needed
         return ResponseEntity.ok(dto);
+    }
+
+
+    // --- NEW ENDPOINT ADDED HERE ---
+    @GetMapping("/data/{rideId}")
+    @PreAuthorize("hasRole('USER') or hasRole('DRIVER')")
+    public ResponseEntity<UserRideDto> getRideDataById(@PathVariable Long rideId) {
+        Ride ride = rideService.getRideById(rideId); // Fetch the Ride entity
+
+        // Check if ride exists
+        if (ride == null) {
+            // Or throw a custom NotFoundException for more robust error handling
+            return ResponseEntity.notFound().build();
+        }
+
+        // Map Ride entity to UserRideDto
+        UserRideDto userRideDto = UserRideDto.builder()
+                .rideId(ride.getRideId())
+                .pickupLocation(ride.getPickupLocation())
+                .dropoffLocation(ride.getDropoffLocation())
+                .fare(ride.getFare())
+                .driverId(ride.getDriverId()) // Will be null if no driver assigned yet
+                .status(ride.getStatus().name()) // Assuming getStatus() returns an enum
+                .build();
+
+        return ResponseEntity.ok(userRideDto);
+    }
+
+    @GetMapping("/driver/{driverId}/pending-requests")
+    @PreAuthorize("hasRole('DRIVER')")
+    public ResponseEntity<List<Ride>> getDriverPendingRequests(@PathVariable Long driverId, HttpServletRequest httpRequest) {
+        String bearerToken = httpRequest.getHeader("Authorization");
+        String token = null;
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            token = bearerToken.substring(7);
+        }
+
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        try {
+            // Extract phone number from token
+            String phoneNumber = jwtUtil.getPhoneNumberFromToken(token);
+
+            // Fetch driver profile using phone number to get the authenticated driver's ID
+            DriverResponse authenticatedDriver = driverServiceClient.getDriverByPhone(phoneNumber);
+
+            if (authenticatedDriver == null || authenticatedDriver.getDriverId() == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+            // Security check: Ensure the driverId in the path matches the authenticated driver's ID
+            if (!authenticatedDriver.getDriverId().equals(driverId)) {
+                throw new AccessDeniedException("Access Denied: You can only view your own pending requests.");
+            }
+
+            // Fetch pending rides for the authenticated driver
+            List<Ride> pendingRides = rideService.getPendingRidesForDriver(driverId); // New service method needed
+            return ResponseEntity.ok(pendingRides);
+
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            // Log the exception for debugging
+            System.err.println("Error fetching driver pending requests: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }

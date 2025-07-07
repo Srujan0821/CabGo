@@ -14,4 +14,5 @@ public interface RideService {
     void updateStatusByDriver(Long driverId, String status); // Use driverId instead of phone
 
     Ride getRideById(Long rideId); // Fetch ride details by rideId
+    List<Ride> getPendingRidesForDriver(Long driverId);
 }
