@@ -58,7 +58,10 @@ public class DriverServiceImpl implements DriverService {
         // Fetch and return all available drivers
         return driverRepository.findByAvailableTrue();
     }
-
+    public void logout() {
+        // Stateless logout logic (client-side token removal)
+        System.out.println("User logged out successfully");
+    }
     @Override
     public void updateStatusByPhone(String phone, boolean available) {
         // Find the driver by phone

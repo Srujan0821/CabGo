@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface DriverServiceClient {
     @GetMapping("/api/drivers/profile-by-phone")
     DriverResponse getDriverByPhone(@RequestParam("phone") String phone);
-     @GetMapping("/api/drivers/{driverId}")
+     @GetMapping("/api/drivers/data/{driverId}")
     DriverResponse getDriverById(@PathVariable("driverId") Long driverId);
 }

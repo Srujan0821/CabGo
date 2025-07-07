@@ -15,7 +15,7 @@ public class RideServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RideServiceApplication.class, args);
 		System.out.println("Ride Service Application Started");
-		System.out.println("Access the Driver Service at: http://localhost:8083");
+		System.out.println("Access the Ride Service at: http://localhost:8083");
 	}
 
 }

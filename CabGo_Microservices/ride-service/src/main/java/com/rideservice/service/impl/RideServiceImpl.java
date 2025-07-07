@@ -12,6 +12,7 @@ import com.rideservice.feign.DriverServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -85,6 +86,17 @@ public class RideServiceImpl implements RideService {
         return rideRepository.findById(rideId)
                 .orElseThrow(() -> new RuntimeException("Ride not found"));
     }
+
+    // --- NEW METHOD IMPLEMENTATION ---
+    @Override
+    public List<Ride> getPendingRidesForDriver(Long driverId) {
+        // Define the statuses that count as "pending" for a driver
+        List<RideStatus> pendingStatuses = Arrays.asList(RideStatus.REQUESTED, RideStatus.ASSIGNED,RideStatus.ONGOING);
+
+        // Use a repository method to find rides by driverId and a list of statuses
+        return rideRepository.findByDriverIdAndStatusIn(driverId, pendingStatuses);
+    }
+    // --- END NEW METHOD IMPLEMENTATION ---
 
 
 

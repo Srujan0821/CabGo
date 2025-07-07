@@ -8,5 +8,6 @@ public class DriverResponse {
     private String name;
     private String phone;
     private boolean available;
+    private String vehicleDetails;
     // Add other fields as needed
 }
