@@ -1,6 +1,7 @@
 # User Module 
 ## Table of Contents
 - [Module overview](#module-overview)
+- [Module Contributor](#module-contributor)
 - [Key Features](#key-features)
 - [Table Design](#table-design)
   - [User Table](#user-table)
@@ -11,10 +12,14 @@
   - [3. Repository/Data Access Layer](#3-repositorydata-access-layer)
 - [API Endpoints](#api-endpoints)
 - [API Documentation of User Module](#api-documentation-of-user-module)
+- [UI Documentation of User Module](#ui-documentation-of-user-module)
   
 
 ## Module overview 
 The **User Module** is responsible for managing user-related functionalities within the Cab Booking System. It handles operations such as user registration, login, profile retrieval, and logout. This module ensures secure authentication and authorization using JWT tokens and provides seamless interaction between the user and the system.
+
+## Module Contributor
+Srujan G S 
 
 ### Key Features:
 - **User Registration**: Allows new users to register with their details.
@@ -84,3 +89,10 @@ The **User Module** follows a classic 3-layered architecture to ensure separatio
 ## API Documentation of User Module
 
  [User Endpoints](../API_documentation/User.md)
+
+## UI Documentation of User Module
+
+![User Register](images/user_register.png)
+
+![User Dashboard](images/user_dashboard.png)
+

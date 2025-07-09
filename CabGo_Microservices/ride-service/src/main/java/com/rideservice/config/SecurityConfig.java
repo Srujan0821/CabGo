@@ -44,7 +44,10 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 "/api/drivers/available",
                     "/api/drivers/profile-by-phone",// if you want
                 "/actuator/health",
-                "/error"
+                "/error",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/v3/api-docs/**"
             ).permitAll() // or .hasAnyRole("USER", "SERVICE", "ADMIN") for more security
             .anyRequest().authenticated()
         );

@@ -2,6 +2,7 @@
 
 ## Table of Contents
 - [Project Introduction](#project-introduction)
+- [Project Contributors](#project-contributors)
 - [Architecture Diagram](#architecture-diagram)
 - [Technologies Used](#technologies-used)
     - [Backend](#backend)
@@ -15,7 +16,7 @@
     - [Payment Module](Documentation/Payment_Module.md)
     - [Rating Module](Documentation/Rating_Module.md)
 - [How to Run This Project with Eureka and API Gateway](#how-to-run-this-project-with-eureka-and-api-gateway)
-- [Project Contributors](#project-contributors)
+
 
 
 ## Project Introduction
@@ -23,6 +24,13 @@
 * It provides a seamless experience for users and drivers, ensuring efficient ride management and payment processing. 
 * The system is built with modular components to handle user management, driver management, ride booking, payment processing, and rating/feedback functionalities. 
 * Each module is designed to interact cohesively, delivering a robust and scalable solution for cab booking services.
+
+# Project Contributors
+
+- Srujan G S  - [User Module](Documentation/User_Module.md)  
+- Manjiri Gulalkari - [Payment Module](Documentation/Payment_Module.md)
+- Uddhav Shelke - [Driver Module](Documentation/Driver_Module.md) 
+- Spandhitha I S - [Ride Module](Documentation/Ride_Module.md)
 
 ## Architecture Diagram
 ![MicroService Architecture Diagram](Documentation/component/image.png)
@@ -153,9 +161,3 @@ Allows users and drivers to rate and review each other post-ride.
 Once all the services are running, you can access the application through the API Gateway. Ensure that all services are registered with the Eureka Server and are properly configured in the Config Server.
 
 
-# Project Contributors
-
-- Srujan G S
-- Manjiri Gulalkari
-- Uddhav Shelke
-- Spandhitha I S
