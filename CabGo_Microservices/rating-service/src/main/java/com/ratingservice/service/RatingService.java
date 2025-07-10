@@ -9,4 +9,5 @@ public interface RatingService {
     Rating submitRating(RatingRequest request);
     List<Rating> getRatings(Long toUserId);
     List<Rating> getRatingsForDriver(String phone);
+    double getAverageRatingForDriver(String phone);
 }
