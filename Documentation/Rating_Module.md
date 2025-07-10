@@ -12,6 +12,7 @@
     - [Repository/Data Access Layer](#repositorydata-access-layer)
 - [API Endpoints](#api-endpoints)
 - [API Documentation of Rating Module](#api-documentation-of-rating-module)
+- [UI Documentation of Rating Module](#ui-documentation-of-driver-module)
 
 ---
 
@@ -84,6 +85,11 @@ The **Rating Module** follows a classic 3-layered architecture:
 ## API Documentation of Rating Module
 
 [Rating Endpoints](../API_documentation/Rating.md)
+
+## UI Documentation of Rating Module
+
+![Rating](images/rating.png)
+
 
 
 
