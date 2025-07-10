@@ -1,29 +1,26 @@
-package com.rideservice.controller;
+package com.rideservice.service.impl;
 
 import com.commonlib.dto.RideBookingRequest;
 import com.commonlib.dto.UserResponse;
+import com.commonlib.dto.DriverResponse;
 import com.rideservice.entity.Ride;
-import com.rideservice.service.RideService;
+import com.rideservice.repository.RideRepository;
 import com.rideservice.feign.UserServiceClient;
 import com.rideservice.feign.DriverServiceClient;
-import com.commonlib.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class RideControllerTest {
+class RideServiceImplTest {
 
     @Mock
-    private RideService rideService;
+    private RideRepository rideRepository;
 
     @Mock
     private UserServiceClient userServiceClient;
@@ -31,14 +28,8 @@ class RideControllerTest {
     @Mock
     private DriverServiceClient driverServiceClient;
 
-    @Mock
-    private JwtUtil jwtUtil;
-
-    @Mock
-    private HttpServletRequest httpRequest;
-
     @InjectMocks
-    private RideController rideController;
+    private RideServiceImpl rideService;
 
     @BeforeEach
     void setUp() {
@@ -46,19 +37,19 @@ class RideControllerTest {
     }
 
     @Test
-    void bookRide_shouldReturnRide() {
+    void bookRide_shouldSaveRide() {
         // Arrange
         RideBookingRequest request = new RideBookingRequest();
         request.setPickupLocation("Location A");
         request.setDropoffLocation("Location B");
 
-        String token = "mockToken";
-        when(httpRequest.getHeader("Authorization")).thenReturn("Bearer " + token);
-        when(jwtUtil.getUsernameFromToken(token)).thenReturn("user@example.com");
-
         UserResponse userResponse = new UserResponse();
         userResponse.setUserId(1L);
-        when(userServiceClient.getUserByEmail("user@example.com")).thenReturn(userResponse);
+        when(userServiceClient.getUserById(1L)).thenReturn(userResponse);
+
+        DriverResponse driverResponse = new DriverResponse();
+        driverResponse.setDriverId(2L);
+        when(driverServiceClient.getAvailableDriver()).thenReturn(driverResponse);
 
         Ride ride = Ride.builder()
                 .rideId(1L)
@@ -69,27 +60,20 @@ class RideControllerTest {
                 .fare(100.0)
                 .status(com.commonlib.enums.RideStatus.REQUESTED)
                 .build();
-        when(rideService.bookRide(request, 1L)).thenReturn(ride);
+        when(rideRepository.save(any(Ride.class))).thenReturn(ride);
 
         // Act
-        ResponseEntity<Ride> response = rideController.bookRide(request, httpRequest);
+        Ride result = rideService.bookRide(request, 1L);
 
         // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(ride, response.getBody());
+        assertEquals(ride, result);
+        verify(driverServiceClient).setDriverAvailable(2L, false);
+        verify(rideRepository).save(any(Ride.class));
     }
 
     @Test
     void getUserRides_shouldReturnRideList() {
         // Arrange
-        String token = "mockToken";
-        when(httpRequest.getHeader("Authorization")).thenReturn("Bearer " + token);
-        when(jwtUtil.getUsernameFromToken(token)).thenReturn("user@example.com");
-
-        UserResponse userResponse = new UserResponse();
-        userResponse.setUserId(1L);
-        when(userServiceClient.getUserByEmail("user@example.com")).thenReturn(userResponse);
-
         List<Ride> rides = List.of(
                 Ride.builder()
                         .rideId(1L)
@@ -101,13 +85,12 @@ class RideControllerTest {
                         .status(com.commonlib.enums.RideStatus.COMPLETED)
                         .build()
         );
-        when(rideService.getUserRides(1L)).thenReturn(rides);
+        when(rideRepository.findByUserId(1L)).thenReturn(rides);
 
         // Act
-        ResponseEntity<List<Ride>> response = rideController.getUserRides(httpRequest);
+        List<Ride> result = rideService.getUserRides(1L);
 
         // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(rides, response.getBody());
+        assertEquals(rides, result);
     }
 }
