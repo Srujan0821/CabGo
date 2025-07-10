@@ -77,4 +77,13 @@ public class RatingController {
     public ResponseEntity<List<Rating>> getRatingsForUser(@PathVariable Long toUserId) {
         return ResponseEntity.ok(ratingService.getRatings(toUserId));
     }
+
+    @GetMapping("/driver/average-rating")
+    @PreAuthorize("hasRole('DRIVER')")
+    public ResponseEntity<Double> getAverageRatingForDriver() {
+        String phone = SecurityContextHolder.getContext().getAuthentication().getName();
+        double averageRating = ratingService.getAverageRatingForDriver(phone);
+        return ResponseEntity.ok(averageRating);
+    }
+
 }

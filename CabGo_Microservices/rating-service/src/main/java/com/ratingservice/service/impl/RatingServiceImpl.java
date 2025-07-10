@@ -63,4 +63,19 @@ public class RatingServiceImpl implements RatingService {
         }
         return ratingRepository.findByToUserId(driver.getDriverId());
     }
+
+    @Override
+    public double getAverageRatingForDriver(String phone) {
+        List<Rating> ratings = getRatingsForDriver(phone);
+        if (ratings.isEmpty()) {
+            return 0.0;
+        }
+
+        double totalScore = ratings.stream()
+                .mapToDouble(Rating::getScore)
+                .sum();
+
+        return totalScore / ratings.size();
+    }
+
 }
