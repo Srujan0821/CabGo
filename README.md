@@ -38,12 +38,12 @@
 ## Technologies Used
 
 ### Backend
-- **Framework**: Spring Boot  
+- **Framework**: Spring Boot( Version: 3.5.3)
 - **Database**: MySQL  
 - **Authentication**: JWT (JSON Web Tokens)  
 - **ORM**: Hibernate (via Spring Data JPA)  
 - **Security**: Spring Security  
-- **Build Tool**: Maven  
+- **Build Tool**: Maven  (Version 3.9.9)
 
 ### Frontend
 - **Framework**: React.js  
