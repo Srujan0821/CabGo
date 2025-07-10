@@ -2,6 +2,7 @@
 
 ## Table of Contents
 - [Module Overview](#module-overview)
+- [Module Contributor](#module-contributor)
 - [Key Features](#key-features)
 - [Table Design](#table-design)
     - [Ride Table](#ride-table)
@@ -12,6 +13,7 @@
     - [Repository/Data Access Layer](#repositorydata-access-layer)
 - [API Endpoints](#api-endpoints)
 - [API Documentation of Payment Module](#api-documentation-of-payment-module)
+- [UI Documentation of Payment Module](#ui-documentation-of-payment-module)
 
 ---
 
@@ -19,7 +21,11 @@
 
 The **Ride Module** manages ride-related functionalities within the Cab Booking System. It includes operations such as booking rides, updating ride statuses, and retrieving ride history for users. This module ensures smooth interaction between users and drivers for efficient ride management.
 
----
+
+## Module Contributor
+Manjiri Gulalkari
+
+
 
 ## Key Features
 - **Ride Booking**: Allows users to book rides by specifying pickup and dropoff locations.
@@ -87,3 +93,7 @@ The Ride Module follows a classic 3-layered architecture:
 ## API Documentation of Payment Module
 
  [Payment  Endpoints](../API_documentation/Payment.md)
+
+ ## UI Documentation of Payment Module
+
+ ![Payment](images/payment.png)

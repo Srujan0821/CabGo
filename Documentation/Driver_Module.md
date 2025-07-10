@@ -2,6 +2,7 @@
 
 ## Table of Contents
 - [Module Overview](#module-overview)
+- [Module Contributor](#module-contributor)
 - [Key Features](#key-features)
 - [Table Design](#table-design)
     - [Driver Table](#driver-table)
@@ -12,14 +13,18 @@
     - [Repository/Data Access Layer](#repositorydata-access-layer)
 - [API Endpoints](#api-endpoints)
 - [API Documentation of Driver Module](#api-documentation-of-driver-module)
+- [UI Documentation of Driver Module](#ui-documentation-of-driver-module)
 
 ---
 
 ## Module Overview
 
+
 The **Driver Module** manages driver-related functionalities within the Cab Booking System. It includes operations such as driver registration, login, profile retrieval, and status updates. Secure authentication and authorization are implemented using JWT tokens, enabling seamless interaction between drivers and the system.
 
----
+
+## Module Contributor
+Uddhav Shelke
 
 ## Key Features
 - **Driver Registration**: Enables new drivers to register with their details.
@@ -94,4 +99,10 @@ The Driver Module follows a classic 3-layered architecture:
 ## API Documentation of Driver Module
 
  [Driver Endpoints](../API_documentation/Driver.md)
+
+ ## UI Documentation of Driver Module
+
+ ![Driver Register](images/driver_register.png)
+
+ ![Driver Dashboard](images/driver_dashboard.png)
  

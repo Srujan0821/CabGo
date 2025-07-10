@@ -13,6 +13,7 @@ import Payment from './pages/Payment';
 import Rating from './pages/Rating';
 import UserProfile from './pages/UserProfile';
 import DriverProfile from './pages/DriverProfile';
+import MapPage from './pages/MapPage';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/driver/auth" element={<DriverAuth />} />
             <Route path="/user/dashboard" element={<UserDashboard />} />
             <Route path="/user/profile" element={<UserProfile />} /> 
+            <Route path="/ride-tracking/:rideId" element={<MapPage />} /> 
             <Route path="/driver/dashboard" element={<DriverDashboard />} />
             <Route path="/driver/profile" element={<DriverProfile />} /> 
             <Route path="/book-ride" element={<BookRide />} />

@@ -11,12 +11,11 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.userservice", "com.commonlib.utils"})
 @EnableFeignClients(basePackages = {"com.userservice", "com.commonlib.utils"})
 public class UserServiceApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(UserServiceApplication.class, args);
 		System.out.println("User Service is running...");
+		// Print the URL for accessing the swagger UI
+		System.out.println("Access the Swagger UI at: http://localhost:8081/swagger-ui/index.html");
 		System.out.println("Access the User Service at: http://localhost:8081");
-		
 	}
-
 }

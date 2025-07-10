@@ -233,7 +233,7 @@ const Payment = () => {
     return (
         <div className="min-h-screen flex flex-col">
             <Navbar />
-
+            
             <div className="flex-grow flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
                 <div className="max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
                     <div className="mb-8">
